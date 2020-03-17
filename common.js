@@ -123,8 +123,10 @@ function getRandomStr(len) {
 
 /**
  * 获取数据，没有数据返回默认值
- * @param {*}
+ * @param source
+ * @param defaultValue
  * @return {*}
+ * let obj={name:'111'} console.log(getDataWidthDefault(obj.age,'--'))
  */
 function getDataWidthDefault(source, defaultValue) {
   let result = defaultValue;
@@ -314,7 +316,7 @@ function formatDate(date, fmt) {
 //---------------------------------------------------------------------------------------------------------------------------------------
 /**
  * @description: 获取url地址里面的参数   
- * @param {String}
+ * @param {String}   获取方法this.getUrlKey(id),写入要获取的参数的名字
  * @return {*} 
  */
 function getUrlKey(name) {
@@ -328,8 +330,8 @@ function getUrlKey(name) {
 }
 /**
  * @description: 获取url参数
- * @param {String}
- * @return {Object}
+ * @param {String} 'segmentfault.com/write?draftId=122000011938'
+ * @return {Object} {draftId: "122000011938"}
  */
 function getUrlPrmt(url) {
   url = url ? url : window.location.href;
@@ -349,7 +351,7 @@ function getUrlPrmt(url) {
 }
 /**
  * @description: 设置url参数
- * @param {Object}
+ * @param {Object} {'a':1,'b':2}
  * @return {String} a=1&b=2
  */
 function setUrlPrmt(obj) {
