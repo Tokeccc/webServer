@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .boss{
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    #boss{
+				width: 100px;
+				height: 300px;
+				background-color: blue;
+				position: absolute;
+				left: 200px;
+				top: 200px;
+			}
+      #wrap{
+				width: 200px;
+				height:200px;
+				background-color: #ccc;
+				position: absolute;
+				left: 100px;
+				top: 100px;
+			}
+			h2{
+				background-color: deepskyblue;
+			}
+      #box4{
+				width: 100px;
+				height: 100px;
+				background-color: blue;
+				z-index: 2;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+  </style>
+ 
+</head>
+    <div id="box">dsfgfdgdgrgrgreg</div>
+    <div class="boss">居中显示</div>
+    <div id="wrap">
+			<h2 id="box1">拖拽（适用于pc端）</h2>
+    </div>
+    <div id="box4">抖动</div>
+
+<body>
+  <script src="./common.js"></script>
+  <script>
+     //调取模态层
+    var box = document.getElementById("box")
+    box.onclick = function(){
+      // model() 
+      alertBox("wooooooo")
+    }
+    //居中
+    var bos1s = document.getElementsByClassName("boss")[0]
+    showCenter(bos1s);
+    //拖拽
+    var wrap = document.getElementById("wrap")
+    var box1 = document.getElementById("box1")
+    dragBox(wrap,box1)
+    //抖动
+    var box4 = document.getElementById("box4")
+    shake(box4,60,'left')
+
+  </script>
+</body>
+
+</html>
