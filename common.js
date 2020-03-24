@@ -498,8 +498,10 @@ function relieveCopy() {
 function model(){
 	var oM = document.createElement('div');
 	oM.className = "model";
-	oM.style.width = document.documentElement.clientWidth+"px";
-	oM.style.height=document.documentElement.clientHeight+"px";
+	// oM.style.width = document.documentElement.clientWidth+"px";
+  // oM.style.height=document.documentElement.clientHeight+"px";
+  oM.style.width = '100%';
+	oM.style.height='100%';
   oM.style.backgroundColor='#ccc';
   oM.style.position='fixed';
   oM.style.top='0';
