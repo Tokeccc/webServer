@@ -123,8 +123,10 @@ function getRandomStr(len) {
 
 /**
  * 获取数据，没有数据返回默认值
- * @param {*}
+ * @param source
+ * @param defaultValue
  * @return {*}
+ * let obj={name:'111'} console.log(getDataWidthDefault(obj.age,'--'))
  */
 function getDataWidthDefault(source, defaultValue) {
   let result = defaultValue;
@@ -314,7 +316,7 @@ function formatDate(date, fmt) {
 //---------------------------------------------------------------------------------------------------------------------------------------
 /**
  * @description: 获取url地址里面的参数   
- * @param {String}
+ * @param {String}   获取方法this.getUrlKey(id),写入要获取的参数的名字
  * @return {*} 
  */
 function getUrlKey(name) {
@@ -328,8 +330,8 @@ function getUrlKey(name) {
 }
 /**
  * @description: 获取url参数
- * @param {String}
- * @return {Object}
+ * @param {String} 'segmentfault.com/write?draftId=122000011938'
+ * @return {Object} {draftId: "122000011938"}
  */
 function getUrlPrmt(url) {
   url = url ? url : window.location.href;
@@ -349,7 +351,7 @@ function getUrlPrmt(url) {
 }
 /**
  * @description: 设置url参数
- * @param {Object}
+ * @param {Object} {'a':1,'b':2}
  * @return {String} a=1&b=2
  */
 function setUrlPrmt(obj) {
@@ -489,7 +491,133 @@ function relieveCopy() {
   }
 }
 
-//120s倒计时（原声写法）
+
+/**
+ * @description: 模态层
+ */
+function model(){
+	var oM = document.createElement('div');
+	oM.className = "model";
+	// oM.style.width = document.documentElement.clientWidth+"px";
+  // oM.style.height=document.documentElement.clientHeight+"px";
+  oM.style.width = '100%';
+	oM.style.height='100%';
+  oM.style.backgroundColor='#ccc';
+  oM.style.position='fixed';
+  oM.style.top='0';
+  oM.style.left='0';
+  oM.style.zIndex='100';
+  oM.style.opacity='0.5';
+	document.body.appendChild(oM);
+	return oM;
+};
+/**
+ * @description: 盒子居中显示
+ * @param {}  要居中的元素
+ */
+function showCenter(obj){
+	function center(){
+		obj.style.position = "absolute"
+		var srcW = document.documentElement.clientWidth;        //屏幕的宽度，浏览器宽度
+		var srcH = document.documentElement.clientHeight;        //浏览器高度
+		obj.style.left = srcW/2 - obj.offsetWidth/2 + "px";       //盒子的左边的宽度 = 浏览器宽度的一半 - 盒子本身的宽度的一半 + 单位；
+		obj.style.top = (srcH-obj.offsetHeight)/2 + "px"; 
+	}
+	center();
+	window.onresize = function(){                        //浏览器调整大小的时候，触发的函数；调用函数（）
+		 center();  
+	}
+}
+/**
+ * @description: 警告弹窗
+ * @param {} txt 弹框里面的说明文字
+ */
+function alertBox(txt){
+	var oM = model();                                            //扔出来的模态层用一个变量接着
+	var alertbox = document.createElement("div");                    //创建一个名字叫div的标签
+	alertbox.className = "alertBox";                                 //他的类名叫alertBox
+	alertbox.style.width = "300px";                                
+	alertbox.style.height = "300px";                                
+	alertbox.style.border = "1px #ccc solid";                                
+	alertbox.style.backgroundColor = "#999";                                
+	alertbox.style.zIndex = "120";                                
+	alertbox.style.textAlign = "center";                                
+	alertbox.innerHTML = '<p>'+txt+'</p><button type="button">确定</button>';        //类名里面的内容是-----------     
+	document.body.appendChild(alertbox);                             //把他追加到放到body里面。
+	showCenter(alertbox);                                            //引用函数居中
+	var delBtn = alertbox.getElementsByTagName("button")[0];          //找到按钮，框里面的按钮
+	delBtn.onclick = function(){                                      //点击按钮，盒子消失，
+		document.body.removeChild(alertbox);                          //点击按钮删除弹框
+		document.body.removeChild(oM);                           //点击按钮删除模态层
+	}
+}
+/**
+ * @description: 盒子拖拽功能
+ * @param {}  obj  大盒子  title 标题(相当于子元素)
+ * 第一个参数存在，那就可以拖拽大盒子；  两个参数都传入，可以拖动小盒子,
+ */
+function dragBox(obj,title){
+	title = title || obj;
+	title.onmousedown = function(ev){
+		var m_l = ev.clientX - obj.offsetLeft;
+		var m_t = ev.clientY - obj.offsetTop;
+		
+		document.onmousemove = function(ev){
+			var l = ev.clientX-m_l;
+			var t = ev.clientY-m_t;
+			if(l<0){l=0}
+			if(t<0){t=0}
+			if(l>document.documentElement.clientWidth-obj.offsetWidth){l=document.documentElement.clientWidth-obj.offsetWidth}
+			if(t>document.documentElement.clientHeight-obj.offsetHeight){t=document.documentElement.clientHeight-obj.offsetHeight}
+			obj.style.left = l +"px";
+			obj.style.top = t +"px";
+			//ev.preventDefault();
+		};
+		document.onmouseup = function(){
+			console.log(1)
+			document.onmouseup = document.onmousemove = null;
+		}
+		//ev.preventDefault();
+	};	
+	document.onmousedown = function(ev){
+		ev.preventDefault();
+	};
+};
+
+/**
+ * @description: 抖动
+ * @param {}  obj{抖动对象}  num{抖动幅度}  direction{抖动方向} fn{回调函数}        
+ */
+function shake(obj,num,direction,fn){
+	num =num || 20;
+	var objPosition ;
+	objPosition=direction == "left"? obj.offsetLeft : obj.offsetTop;
+	console.log(objPosition)
+	var arr = [];
+	for(var i=num;i>0; i-=2){
+		arr.push(i);
+		arr.push(-i);
+	};
+	arr.push(0);
+	var arrL = arr.length;
+	var n=0;
+	clearInterval(timer);
+	var timer = setInterval(function(){
+		obj.style[direction] = objPosition+arr[n] + "px";
+		n++;
+		if(n==arrL){
+			clearInterval(timer);
+			n=0;
+			fn&&fn();
+		}
+	},30)
+};
+
+
+
+/**
+ * @description:120s倒计时（原声写法）
+ */
 timeLoading = function () {
   var time = 120
   timeSet = setInterval(function () {
@@ -554,6 +682,10 @@ function mpSort(arr){
   }
   return arr
 }
+
+
+
+
 
 // module.exports = {
 //   toBigAbc,
