@@ -535,6 +535,25 @@ function getTimeOut() {
     }, 1000)
   }
 }
+/**
+ * @description: 冒泡排序
+ * @param : Array
+ * @return: Array
+ */
+function mpSort(arr){
+  var arr = arr,
+      l=arr.length-1;
+  for(var i=0;i<l;i++){
+    for(var j=0;j<l-i;j++){
+      if(arr[j]>arr[j+1]){
+        var temp = arr[j];
+        arr[j]=arr[j+1];
+        arr[j+1]=temp
+      }
+    }
+  }
+  return arr
+}
 
 // module.exports = {
 //   toBigAbc,
@@ -560,5 +579,6 @@ function getTimeOut() {
 //   getCopy,
 //   relieveCopy,
 //   getUrlPrmt,
-//   setUrlPrmt
+//   setUrlPrmt,
+//   mpSort
 // };
