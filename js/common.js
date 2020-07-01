@@ -727,6 +727,49 @@ function distinct (arr){
   return result;
 }
 
+
+
+/**
+ * @description: mockjs生成随机的假数据便于测试
+ * @param : import Mock from 'mockjs'  vue重使用在需要的vue文件里面引入(安装npm install mockjs --save-dev)
+ * @return: Array
+ */
+//手机号脱敏
+function phoneQuick(item) {
+  let that = this
+  let str2 = item.substr(0, 3) + '****' + item.substr(7, 10)
+  return str2
+}
+// 拓展mockjs，手机号处理
+Mock.Random.extend({
+phone: function() {
+  var phonePrefixs = ['132', '135', '189','186'] // 自己写前缀哈
+  var phoneNoset = this.pick(phonePrefixs) + Mock.mock(/\d{8}/) //Number()
+  return phoneQuick(phoneNoset)
+}
+})
+var data = Mock.mock({
+'list|1-10': [//随机1-10个对象
+  {
+    'id|+1': 1,
+    phone: '@phone', //随机手机号
+    'num|1-100': 80,//随机1-100直接的数
+    'testobj|1-3': {//随机对象重1-3个属性 
+      name: 'zhangsan',
+      sex: 'nan'
+    },
+    // 'tel|17635253410-18612345611':'18612345611',
+    nickname: '@name',//随机名字
+    img: '@image',//随机照片地址
+    color: '@color',//随机颜色
+    mttime: '@datetime',//随机时间
+    'boolea|1': true//随机布尔值 
+  }
+]
+})
+console.log(data) //生成的随机测试数据
+
+
 module.exports = {
   toBigAbc,
   getSymmetric,
