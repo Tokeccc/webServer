@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="public.css" />
+    <title>滚动换图</title>
+    <style>
+      .box{
+        position: relative;
+      }
+      .last,.new{
+        display: block;
+        width: 200px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .last{
+        height: 200px;
+        background: url(./img/smile1.png) no-repeat center;
+        background-size: 100% 100%;
+      }
+      .new{
+        background: url(./img/smile2.jpeg) no-repeat center;
+        background-size: 100% 100%;
+        height: 0;
+      }
+    </style>
+  </head>
+
+  <body onload="main()">
+    <div style="height:2000px;"></div>
+    <div class="box">
+        <div class="last"></div>
+        <div class="new"></div>
+    </div>
+    <div style="height:2000px;"></div>
+    <script src="./js/common.js"></script>
+    <script src="./js/juery-1.11.2.min.js"></script>
+    <script>
+      $(window).scroll(function(){
+        //获取last的卷去高度
+        var scrollHeight=$(window).scrollTop();
+        //获取last的offset top
+        var offTop=$('.last').offset().top;
+        //获取last的高度
+        var lastHeght=$('.last').height()
+        //获取new的高度
+        var end = $('.new').height();
+        //判断滚动到盒子上面200px的时候开始换图
+        if(scrollHeight>(offTop-200) && scrollHeight<offTop && end<=200){
+          //计算new的高度
+          var nHeight =scrollHeight-(offTop-200)
+          $('.new').css({height:nHeight+"px"})
+        }else if(scrollHeight>offTop){
+          $('.new').css({height:200+"px"})
+        }else{
+          $('.new').css({height:0+"px"})
+        }
+      })
+    </script>
+  </body>
+</html>

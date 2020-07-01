@@ -22,7 +22,7 @@ let productUrl = 'http://192.168.1.60:9999';
 //测试
 let developUrl = 'http://192.168.20.163:8080';
 
-// process.env.NODE_ENV === 'development' ? apiBaseURL = developUrl : apiBaseURL = productUrl;
+process.env.NODE_ENV === 'development' ? apiBaseURL = developUrl : apiBaseURL = productUrl;
 
 class HttpUtil {
     constructor() {

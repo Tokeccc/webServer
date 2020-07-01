@@ -1,8 +1,21 @@
 /*
  * @Description: 前端常用方法
- * @Author: yanpeng
- * @Author: zhiqin
+ * @Author: yanpeng zhiqin
  */
+//以非数字开头以数字、字母、标点符号结尾
+// var Reg=/^[^0-9]{1}[a-zA-Z0-9!@#$%^&*()_+=-{};'":：；‘，。/、》《><.,”【】]+$/
+var Reg=/^[^0-9]{1}[a-zA-Z0-9!@#$%^&￥*()-_——……+={};'":：；‘’~`，,.。/、（）]+$/
+//以非数字开头以非空字符结尾(包含中文)
+// var Reg=/^[^0-9]{1}\S+$/
+/**
+ * @description: 
+ * @param : str
+ * @return: {true/false}
+ */
+function testMsg(str){
+  str?str:''
+  return Reg.test(str)
+}
 
 /**
  * @description: 字符串首字母大写
@@ -230,15 +243,24 @@ function checkPwd(str) {
  * @param {Object}
  * @return {Object}
  */
-function deepCopy(obj) {
-  if (typeof obj != 'object') {
-    return obj;
+function deepClone(obj) {
+  let objClone = Array.isArray(obj) ? [] : {};
+  if (obj && typeof obj === "object") {
+    for (key in obj) {
+      console.log(obj[key])
+      if (obj.hasOwnProperty(key)) {
+        //判断ojb子元素是否为对象，如果是，递归复制
+        if (obj[key] && typeof obj[key] === "object") {
+          objClone[key] = deepClone(obj[key]);
+        } else {
+          //如果不是，简单复制
+          objClone[key] = obj[key];
+        }
+      }
+    }
   }
-  var newObj = {};
-  for (var attr in obj) {
-    newObj[attr] = deepCopy(obj[attr]);
-  }
-  return newObj;
+  console.log(typeof obj === "object")
+  return objClone;
 }
 
 /**
@@ -683,34 +705,53 @@ function mpSort(arr){
   return arr
 }
 
+/**
+ * @description: 数组去重
+ * @param : array
+ * @return: array
+ */
+function distinct (arr){
+  var arr =arr, 
+  result = [],
+      i, 
+      j,  
+      len = arr.length;
+  for(i = 0; i < len; i++){
+      for(j = i + 1; j < len; j++){
+             if(arr[i] === arr[j]){
+                  j = ++i;  
+               }  
+      }  
+          result.push(arr[i]); 
+  }
+  return result;
+}
 
-
-
-
-// module.exports = {
-//   toBigAbc,
-//   getSymmetric,
-//   setCookie,
-//   getCookie,
-//   isEmptyObject,
-//   ObjectItemHasLength,
-//   getRandomStr,
-//   getDataWidthDefault,
-//   deletSpace,
-//   divideArray,
-//   userBrowser,
-//   checkPwd,
-//   deepCopy,
-//   debounce,
-//   throttle,
-//   formatDate,
-//   getUrlKey,
-//   phoneQuick,
-//   getCurrentTime,
-//   changeCase,
-//   getCopy,
-//   relieveCopy,
-//   getUrlPrmt,
-//   setUrlPrmt,
-//   mpSort
-// };
+module.exports = {
+  toBigAbc,
+  getSymmetric,
+  setCookie,
+  getCookie,
+  isEmptyObject,
+  ObjectItemHasLength,
+  getRandomStr,
+  getDataWidthDefault,
+  deletSpace,
+  divideArray,
+  userBrowser,
+  checkPwd,
+  deepCopy,
+  debounce,
+  throttle,
+  formatDate,
+  getUrlKey,
+  phoneQuick,
+  getCurrentTime,
+  changeCase,
+  getCopy,
+  relieveCopy,
+  getUrlPrmt,
+  setUrlPrmt,
+  mpSort,
+  distinct
+};
